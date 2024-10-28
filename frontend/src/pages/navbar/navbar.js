@@ -1,13 +1,21 @@
 import { SignUp } from "../signUp/signUp";
+import { Login } from "../login/login";
 import { useState } from "react";
 export const Navbar = () => {
   const [isSignUp, setIsSignUp] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
   const showSignUp = () => {
     setIsSignUp(true);
   };
-  const hideSignUp=()=>{
-    setIsSignUp(false)
-  }
+  const hideSignUp = () => {
+    setIsSignUp(false);
+  };
+  const showLogin = () => {
+    setIsLogin(true);
+  };
+  const hideLogin = () => {
+    setIsLogin(false);
+  };
 
   return (
     <div className="">
@@ -80,7 +88,7 @@ export const Navbar = () => {
               >
                 SignUp
               </button>
-              <button className="btn btn-primary fw-bold" href="#">
+              <button onClick={() => showLogin()} className="btn btn-primary fw-bold" href="#">
                 Login
               </button>
             </div>
@@ -88,6 +96,7 @@ export const Navbar = () => {
         </div>
       </nav>
       {isSignUp && <SignUp hideSignUp={hideSignUp} />}
+      {isLogin && <Login hideLogin={hideLogin} />}
     </div>
   );
 };
