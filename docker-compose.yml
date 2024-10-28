@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    volumes:
+      - ./backend:/var/www  # Mount the backend directory for live reload
+      - /var/www/vendor     # Prevent vendor from being overwritten
+      - /var/www/storage    # Ensure storage is also writable and persistent
+    ports:
+      - "8000:8000"         # Map Laravel default port 8000 to host
+    environment:
+      DB_CONNECTION: sqlite
+      DB_DATABASE: /var/www/database/database.sqlite
+    networks:
+      - app-network
+    command: php artisan serve --host=0.0.0.0 --port=8000  # Command to start Laravel server
+
+  frontend:
+    build:
+      context: ./frontend
+    volumes:
+      - ./frontend:/app      # Mount frontend directory for live reload
+      - /app/node_modules    # Prevent node_modules from being overwritten
+    ports:
+      - "3000:3000"
+    environment:
+    - REACT_APP_API_URL=http://localhost:8000/api
+    - CHOKIDAR_USEPOLLING=true        # Enable polling for file changes
+    networks:
+      - app-network
+    command: npm start       # Start the React development server
+
+networks:
+  app-network:
+    driver: bridge

@@ -1,12 +1,20 @@
 import "./signUp.css";
 import { IoCloseSharp } from "react-icons/io5";
+import { useForm } from 'react-hook-form';
+import { RegisterUser } from "../../services/userApi";
 export const SignUp = ({hideSignUp}) => {
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
+const submitData=async(userData)=>{
+  
+    const response= await RegisterUser(userData)
 
+ 
+}
   return (
     <div className="overlay">
       <div className="content">
-        <form>
+      <form onSubmit={handleSubmit(submitData)}>
           <div className="row">
           <h1 className="text-center my-3 col">Sign Up</h1>
           <button onClick={hideSignUp} type="button" class="btn btn-danger btn-floating" data-mdb-ripple-init>
@@ -21,10 +29,11 @@ export const SignUp = ({hideSignUp}) => {
               FirstName
             </label>
             <input
-              type="email"
+              type="text"
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="FristName"
+              {...register("first_name")}
             />
           </div>
           <div class="col">
@@ -32,10 +41,11 @@ export const SignUp = ({hideSignUp}) => {
               LastName
             </label>
             <input
-              type="email"
+              type="text"
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="LastName"
+              {...register("last_name")}
             />
           </div>
          </div>
@@ -48,6 +58,7 @@ export const SignUp = ({hideSignUp}) => {
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Email"
+              {...register("email")}
             />
           </div>
           <div class="mb-3">
@@ -55,19 +66,20 @@ export const SignUp = ({hideSignUp}) => {
               Password
             </label>
             <input
-              type="email"
+              type="password"
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Password"
+              {...register("password")}
             />
           </div>
-          <select class="form-select my-4" aria-label="Default select example">
+          <select  {...register("profession")} class="form-select my-4" aria-label="Default select example">
   <option selected>Proffession</option>
   <option value="1">Student</option>
   <option value="2">Teacher</option>
   <option value="3">Admin</option>
 </select>
-          <select class="form-select my-4" aria-label="Default select example">
+          <select  {...register("school")} class="form-select my-4" aria-label="Default select example">
   <option selected>School</option>
   <option value="1">School1</option>
   <option value="2">School2</option>
@@ -76,7 +88,7 @@ export const SignUp = ({hideSignUp}) => {
 
           <button
             data-mdb-ripple-init
-            type="button"
+            type="submit"
             class="btn btn-primary btn-block mb-4"
           >
             Sign up
