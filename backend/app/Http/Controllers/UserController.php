@@ -24,6 +24,7 @@ class UserController extends Controller
                 'school' => 'nullable|string',
             ]);
 
+
             // Create a new user
             $user = User::create([
                 'first_name' => $validated['first_name'],
@@ -32,6 +33,8 @@ class UserController extends Controller
                 'password' => Hash::make($validated['password']), // Hash the password before saving
                 'profession' => $validated['profession'],
                 'school' => $validated['school'],
+                'role_id' => 1,
+
             ]);
 
             // Return response with user data
