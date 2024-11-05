@@ -13,5 +13,34 @@ export const RegisterUser = async (user) => {
   }
 };
 export const LoginUser = async (user) => {
-  const response = await api.post('/login', user);
+  try {
+    const response = await api.post('/login', user);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+export const LogoutUser = async (user) => {
+  try {
+    const response = await api.post('/logout', user);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+export const getUsers = async (user) => {
+  try {
+    const response = await api.post('/users', user);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+export const getUser = async (user) => {
+  try {
+    const response = await api.post('/user', user);
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
 };

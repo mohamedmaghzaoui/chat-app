@@ -48,4 +48,24 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+    public function hasRole()
+    {
+        return $this->role->role_type;
+    }
+
+    public function setRole($role)
+    {
+        // Check if role is an instance of Role, or retrieve it by ID
+        if ($role instanceof Role) {
+            $this->role()->associate($role);
+        } elseif (is_numeric($role)) {
+            $this->role_id = $role; // Set the role_id directly
+        }
+
+        $this->save(); // Save the changes to the user
+    }
 }

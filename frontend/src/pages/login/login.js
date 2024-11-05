@@ -1,8 +1,13 @@
 import '../signUp/signUp';
 import { IoCloseSharp } from 'react-icons/io5';
 import { useForm } from 'react-hook-form';
+import { LoginUser } from '../../services/userApi';
 export const Login = ({ hideLogin }) => {
-  const submitData = (loginData) => {};
+  const submitData = async (userData) => {
+    const response = await LoginUser(userData);
+    console.log(response);
+  };
+
   const {
     register,
     handleSubmit,
