@@ -2,9 +2,13 @@ import '../signUp/signUp';
 import { IoCloseSharp } from 'react-icons/io5';
 import { useForm } from 'react-hook-form';
 import { LoginUser } from '../../services/userApi';
+import { useContext } from 'react';
+import { UserContext } from '../../Contexts/userContext';
 export const Login = ({ hideLogin }) => {
+  const { setUsername } = useContext(UserContext);
   const submitData = async (userData) => {
     const response = await LoginUser(userData);
+    setUsername((prev) => prev + 'a'); //change unername in order to run getUser functuin
     console.log(response);
   };
 

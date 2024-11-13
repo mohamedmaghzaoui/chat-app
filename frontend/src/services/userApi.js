@@ -17,7 +17,7 @@ export const LoginUser = async (user) => {
     const response = await api.post('/login', user);
     return response.data;
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 export const LogoutUser = async (user) => {
@@ -30,7 +30,7 @@ export const LogoutUser = async (user) => {
 };
 export const getUsers = async (user) => {
   try {
-    const response = await api.post('/users', user);
+    const response = await api.get('/users', user);
     return response.data;
   } catch (err) {
     console.log(err);
@@ -38,8 +38,9 @@ export const getUsers = async (user) => {
 };
 export const getUser = async (user) => {
   try {
-    const response = await api.post('/user', user);
-    return response.data;
+    const response = await api.get('/user', user);
+    //return the user
+    return response.data.user;
   } catch (err) {
     console.log(err);
   }

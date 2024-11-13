@@ -53,9 +53,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
-    public function hasRole()
+    public function getRole()
     {
-        return $this->role->role_type;
+        return $this->role ? $this->role->role_type : null; // Safely access role_type
     }
 
     public function setRole($role)

@@ -9,3 +9,6 @@ use Illuminate\Http\Request;
 Route::post('/test', function () {
     return response()->json(['message' => 'test']);
 });
+Route::get("/", function () {
+    return view('welcome');
+});

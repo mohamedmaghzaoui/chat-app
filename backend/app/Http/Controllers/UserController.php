@@ -71,4 +71,10 @@ class UserController extends Controller
         $request->session()->regenerateToken();
         return response()->json(['message' => 'logout avec success']);
     }
+    public function getUser()
+    {
+        $user = Auth::user()->load('role');
+
+        return response()->json(['user' => $user]);
+    }
 }
