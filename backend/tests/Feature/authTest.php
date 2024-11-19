@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
@@ -13,10 +14,10 @@ class AuthTest extends TestCase
 
 
 
-
     /**
      * Test user registration with valid data.
      */
+
     public function test_user_can_register()
     {
         $response = $this->postJson('/api/register', [

@@ -49,6 +49,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    //role relation
     public function role()
     {
         return $this->belongsTo(Role::class);
@@ -68,5 +69,20 @@ class User extends Authenticatable
         }
 
         $this->save(); // Save the changes to the user
+    }
+    //a user can have multiple messages
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+    //a user can belong to multiple conversation
+    public function conversations()
+    {
+        return $this->belongsToMany(Conversation::class);
+    }
+    // a user can belong to multiple groups
+    public function group()
+    {
+        return $this->belongsToMany(Group::class);
     }
 }
