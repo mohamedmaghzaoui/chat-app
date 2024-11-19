@@ -21,6 +21,10 @@ Route::middleware(['web'])->group(function () {
     Route::get('/users', [UserController::class, 'getUsers'])->middleware('auth');
     //get  current login user
     Route::get('/user', [UserController::class, 'getUser'])->middleware('auth');
+    Route::delete('/user', [UserController::class, 'deleteUser'])->middleware('auth');
+
+
+
     //route to create a conversation
     Route::post('/conversation', [Conversation::class, 'createConversation'])->middleware('auth');
 });

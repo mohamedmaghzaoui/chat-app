@@ -77,4 +77,17 @@ class UserController extends Controller
 
         return response()->json(['user' => $user]);
     }
+
+    public function deleteUser()
+    {
+        // Get the authenticated user
+        $user = Auth::user();
+
+        // Delete the user from the database
+        $user->delete();
+
+        return response()->json([
+            'message' => 'User successfully deleted',
+        ], 200);
+    }
 }
