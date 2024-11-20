@@ -21,6 +21,18 @@ class Conversation extends Controller
             # code...
             return response()->json(['error' => 'You cannot start a conversation with yourself.'], 400);
         }
+        //prevent the creation of multiple conversation between the same two users
+
+        $existingConversation = ModelsConversation::whereHas('users', function ($query) use ($request) {
+            // Check if a conversation between the logged-in user and the recipient already exists
+            $query->whereIn('users.id', [Auth::id(), $request->user_id])
+                ->where('conversations.is_group', 0); // Make sure it's not a group conversation
+        })->exists(); // Check if such a conversation exists
+
+        if ($existingConversation > 0) {
+            return response()->json(['error' => 'A conversation already exists between these two users.'], 400);
+        }
+
         // Create the new conversation
         $conversation = ModelsConversation::create();
 

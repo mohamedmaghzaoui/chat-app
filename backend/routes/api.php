@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Conversation;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,8 +23,10 @@ Route::middleware(['web'])->group(function () {
     //get  current login user
     Route::get('/user', [UserController::class, 'getUser'])->middleware('auth');
     Route::delete('/user', [UserController::class, 'deleteUser'])->middleware('auth');
+    Route::get('/conversations/{conversationId}/messages', [MessageController::class, 'getAll   ']);
 
-
+    // Store a new message
+    Route::post('/conversations/{conversationId}/messages', [MessageController::class, 'store']);
 
     //route to create a conversation
     Route::post('/conversation', [Conversation::class, 'createConversation'])->middleware('auth');
