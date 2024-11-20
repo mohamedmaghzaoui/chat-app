@@ -1,0 +1,31 @@
+/* Global settings */
+
+/* Full-height container */
+.chat-content {
+  height: 90vh; /* Ensures it fits within the viewport */
+  overflow: hidden; /* Prevents scrolling */
+  display: flex; /* Allows child alignment */
+  flex-direction: row; /* Horizontal layout for sidebar and chat */
+}
+
+/* User List Sidebar */
+.user-list {
+  height: 100%; /* Take full height of the parent */
+  overflow-y: auto; /* Only scroll inside if needed */
+  overflow-x: hidden;
+  background-color: #f5f7fb;
+}
+
+/* Hover effect */
+.user-left {
+  height: 70px;
+  cursor: pointer;
+}
+.user-left:hover {
+  background-color: #e6ebf5;
+}
+.vertical-icons {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}

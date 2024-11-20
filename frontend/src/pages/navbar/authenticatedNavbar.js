@@ -2,6 +2,7 @@ import { SignUp } from '../signUp/signUp';
 import { Login } from '../login/login';
 import { useState } from 'react';
 import { LogoutUser } from '../../services/userApi';
+import { Link } from 'react-router-dom';
 export const AuthenticatedNavbar = () => {
   //function to logout user
   const Logout = async () => {
@@ -28,14 +29,14 @@ export const AuthenticatedNavbar = () => {
           <div className="collapse navbar-collapse" id="navbarNavDropdown">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
+                <Link to={'/'} className="nav-link active" href="#">
                   Home
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" href="#">
-                  Message
-                </a>
+                <Link to={'/chat'} className="nav-link active" href="#">
+                  Chat
+                </Link>
               </li>
               <li className="nav-item">
                 <a className="nav-link active" href="#">

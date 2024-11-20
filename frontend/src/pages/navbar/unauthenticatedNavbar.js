@@ -39,9 +39,9 @@ export const UnauthenticatedNavbar = () => {
           <div className="collapse navbar-collapse" id="navbarNavDropdown">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
+                <Link to={'/'} className="nav-link active" href="#">
                   Home
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
                 <Link to={'/chat'} className="nav-link active" href="#">
