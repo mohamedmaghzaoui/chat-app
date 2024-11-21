@@ -29,5 +29,5 @@ Route::middleware(['web'])->group(function () {
     Route::post('/conversations/{conversationId}/messages', [MessageController::class, 'store']);
 
     //route to create a conversation
-    Route::post('/conversation', [Conversation::class, 'createConversation'])->middleware('auth');
+    Route::post('/conversations', [Conversation::class, 'createConversation'])->middleware('auth');
 });

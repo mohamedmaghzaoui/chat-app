@@ -45,9 +45,9 @@ class Conversation extends Controller
             ->first(); // Find the first matching conversation
         if ($existingConversation) {
             return response()->json([
-                'error' => 'A conversation already exists between these two users.',
+                'message' => 'A conversation already exists between these two users.',
                 'conversation_id' => $existingConversation->id,
-            ], 400);
+            ]);
         }
 
         // Create the new conversation

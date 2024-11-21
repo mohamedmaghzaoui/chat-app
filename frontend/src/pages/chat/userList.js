@@ -4,12 +4,13 @@ import { getUsers } from '../../services/userApi';
 import './chat.css';
 import { addConversation } from '../../services/chatApi';
 
-export const UsersList = ({ getChatUser }) => {
+export const UsersList = ({ getChatUser, currentUser, getConversationId }) => {
   const [users, setUsers] = useState([]);
   const createConversation = async (chatUserId) => {
     try {
       const response = await addConversation(chatUserId);
-      console.log('Conversation created:', response);
+
+      getConversationId(response.conversation_id);
     } catch (err) {
       console.error('Error creating conversation:', err);
     }
@@ -25,7 +26,7 @@ export const UsersList = ({ getChatUser }) => {
   }, []);
 
   return (
-    <div className="user-list col-xl-3 ">
+    <div className="user-list col-xl-3 col-3 ">
       <h2>Chats</h2>
       <ul>
         <h4>Users</h4>
@@ -34,35 +35,37 @@ export const UsersList = ({ getChatUser }) => {
           className="form-control mb-5 w-75"
           type="text"
         />
-        {users && users.length > 0 ? (
-          users.map((user) => (
-            <div
-              key={user.id} // Always use `key` in the parent-most mapped element
-              className="row d-flex align-items-center mb-4 user-left "
-              onClick={() => {
-                getChatUser(user);
-                createConversation(user.id);
-              }}
-            >
+        {currentUser && users && users.length > 0 ? (
+          users.map((user) =>
+            user.id != currentUser.id ? (
               <div
-                style={{
-                  width: '40px',
-                  height: '40px',
-                  borderRadius: '50%',
-                  backgroundColor: '#E3E1FC',
-                  color: '#7269ef',
-                  fontSize: '14px',
-                  fontWeight: 'bold',
+                key={user.id} // Always use `key` in the parent-most mapped element
+                className="row d-flex align-items-center mb-4 user-left "
+                onClick={() => {
+                  getChatUser(user);
+                  createConversation(user.id);
                 }}
-                className="d-flex align-items-center justify-content-center "
               >
-                {`${user.first_name[0]}${user.last_name[0]}`.toUpperCase()}
+                <div
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    backgroundColor: '#E3E1FC',
+                    color: '#7269ef',
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                  }}
+                  className="d-flex align-items-center justify-content-center "
+                >
+                  {`${user.first_name[0]}${user.last_name[0]}`.toUpperCase()}
+                </div>
+                <div className="col">
+                  <span>{user.first_name}</span>
+                </div>
               </div>
-              <div className="col">
-                <span>{user.first_name}</span>
-              </div>
-            </div>
-          ))
+            ) : null
+          )
         ) : (
           <div>No users</div>
         )}

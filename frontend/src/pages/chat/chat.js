@@ -10,11 +10,14 @@ import { HiOutlineUsers } from 'react-icons/hi2';
 import { AiOutlineUser } from 'react-icons/ai';
 export const Chat = () => {
   const [currentUser, setCurrentUser] = useState();
-
+  const [conversationId, setConversationId] = useState();
   const [chatUser, setChatUser] = useState();
 
   const getChatUser = (user) => {
     setChatUser(user);
+  };
+  const getConversationId = (id) => {
+    setConversationId(id);
   };
 
   useEffect(() => {
@@ -58,9 +61,17 @@ export const Chat = () => {
           size={30}
         />
       </div>
-      <UsersList getChatUser={getChatUser} />
+      <UsersList
+        getConversationId={getConversationId}
+        currentUser={currentUser}
+        getChatUser={getChatUser}
+      />
 
-      <Conversation currentUser={currentUser} chatUser={chatUser} />
+      <Conversation
+        conversationId={conversationId}
+        currentUser={currentUser}
+        chatUser={chatUser}
+      />
     </div>
   );
 };

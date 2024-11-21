@@ -1,7 +1,9 @@
-.send-form {
-  display: flex;
-  margin-top: 49%;
+.container-fluid {
 }
-.icon {
-  cursor: pointer;
+
+.send-form {
+  position: fixed;
+  bottom: 0;
+  padding: 15px;
+  width: 65%;
 }

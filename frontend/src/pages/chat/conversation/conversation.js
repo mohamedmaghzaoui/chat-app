@@ -8,13 +8,49 @@ import { IoIosSearch } from 'react-icons/io';
 import { IoVideocamOutline } from 'react-icons/io5';
 import { IoMdInformationCircleOutline } from 'react-icons/io';
 import { IoMdMore } from 'react-icons/io';
-export const Conversation = ({ chatUser, currentUser }) => {
+import { useEffect, useState } from 'react';
+import { sendMessage, getMessages } from '../../../services/chatApi';
+
+export const Conversation = ({ chatUser, currentUser, conversationId }) => {
+  const [messageContent, setMessageContent] = useState('');
+  const [messages, setMessages] = useState([]);
+
+  // Fetch messages when the conversationId changes
+  useEffect(() => {
+    if (conversationId) {
+      fetchMessages();
+    }
+  }, [conversationId]);
+
+  // Function to fetch messages
+  const fetchMessages = async () => {
+    try {
+      const fetchedMessages = await getMessages(conversationId);
+      setMessages(fetchedMessages);
+    } catch (err) {
+      console.error('Failed to fetch messages:', err);
+    }
+  };
+
+  // Function to handle sending messages
+  const handleSendMessage = async () => {
+    if (!messageContent.trim()) return; // Prevent sending empty messages
+    try {
+      await sendMessage(messageContent, conversationId);
+      setMessageContent(''); // Clear input field
+      fetchMessages(); // Refresh messages
+    } catch (err) {
+      console.error('Failed to send message:', err);
+    }
+  };
+
   if (!chatUser) {
     return <div></div>;
   }
 
   return (
     <div className="container-fluid my-3">
+      {/* Header */}
       <div className="d-flex align-items-center" style={{ gap: '10px' }}>
         <div
           style={{
@@ -45,19 +81,53 @@ export const Conversation = ({ chatUser, currentUser }) => {
       </div>
 
       <hr />
-      {/* You can add more details from chatUser here */}
-      <div className="send-form ">
+
+      {/* Messages Section */}
+      <div
+        style={{
+          flex: 1,
+          overflowY: 'auto',
+          maxHeight: '60vh', // Adjust based on your layout
+          marginBottom: '60px', // Ensure no overlap with the send form
+        }}
+      >
+        {messages.length > 0 ? (
+          messages.map((msg) => (
+            <div
+              key={msg.id}
+              className={`message ${
+                msg.sender_id === currentUser.id ? 'sent' : 'received'
+              }`}
+              style={{
+                textAlign: msg.sender_id === currentUser.id ? 'right' : 'left',
+                margin: '10px 0',
+              }}
+            >
+              <span>{msg.content}</span>
+            </div>
+          ))
+        ) : (
+          <div>No messages yet</div>
+        )}
+      </div>
+
+      {/* Send Form */}
+      <div className="send-form d-flex">
         <IoIosMore className="me-3 icon" size={30} />
         <FaRegSmile className="me-3 icon" size={25} />
-
         <input
+          value={messageContent}
+          onChange={(e) => setMessageContent(e.target.value)}
           placeholder="Enter your message"
           type="text"
           className="form-control"
         />
         <CiMicrophoneOn size={35} className="mx-3 icon" />
-
-        <button type="button" className="btn btn-success  ">
+        <button
+          onClick={handleSendMessage}
+          type="button"
+          className="btn btn-success"
+        >
           <IoSend size={20} className="icon" />
         </button>
       </div>
