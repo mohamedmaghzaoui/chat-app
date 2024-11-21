@@ -23,7 +23,7 @@ Route::middleware(['web'])->group(function () {
     //get  current login user
     Route::get('/user', [UserController::class, 'getUser'])->middleware('auth');
     Route::delete('/user', [UserController::class, 'deleteUser'])->middleware('auth');
-    Route::get('/conversations/{conversationId}/messages', [MessageController::class, 'getAll   ']);
+    Route::get('/conversations/{conversationId}/messages', [MessageController::class, 'getAll']);
 
     // Store a new message
     Route::post('/conversations/{conversationId}/messages', [MessageController::class, 'store']);

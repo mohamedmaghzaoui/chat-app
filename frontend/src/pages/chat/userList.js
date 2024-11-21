@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { getUsers } from '../../services/userApi';
+
 import './chat.css';
+import { addConversation } from '../../services/chatApi';
 
 export const UsersList = ({ getChatUser }) => {
   const [users, setUsers] = useState([]);
+  const createConversation = async (chatUserId) => {
+    try {
+      const response = await addConversation(chatUserId);
+      console.log('Conversation created:', response);
+    } catch (err) {
+      console.error('Error creating conversation:', err);
+    }
+  };
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -29,7 +39,10 @@ export const UsersList = ({ getChatUser }) => {
             <div
               key={user.id} // Always use `key` in the parent-most mapped element
               className="row d-flex align-items-center mb-4 user-left "
-              onClick={() => getChatUser(user)}
+              onClick={() => {
+                getChatUser(user);
+                createConversation(user.id);
+              }}
             >
               <div
                 style={{

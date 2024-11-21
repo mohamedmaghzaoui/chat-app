@@ -3,16 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\Conversation as ModelsConversation;
+use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class Conversation extends Controller
 {
     public function createConversation(Request $request)
     {
-        $request->validate([
-            'user_id' => 'required|exists:users,id', // Correct table name is 'users'
+        // check if user id exist
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|exists:users,id', // Ensure the user exists
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => 'Validation failed.',
+                'messages' => $validator->errors(),
+            ], 422);
+        }
+
+
+
 
         //Ensure the conversation is between two users (the logged-in user and the recipient)
 
@@ -21,16 +34,20 @@ class Conversation extends Controller
             # code...
             return response()->json(['error' => 'You cannot start a conversation with yourself.'], 400);
         }
-        //prevent the creation of multiple conversation between the same two users
-
-        $existingConversation = ModelsConversation::whereHas('users', function ($query) use ($request) {
-            // Check if a conversation between the logged-in user and the recipient already exists
-            $query->whereIn('users.id', [Auth::id(), $request->user_id])
-                ->where('conversations.is_group', 0); // Make sure it's not a group conversation
-        })->exists(); // Check if such a conversation exists
-
-        if ($existingConversation > 0) {
-            return response()->json(['error' => 'A conversation already exists between these two users.'], 400);
+        // Check for an existing private conversation between the two users
+        $existingConversation = ModelsConversation::where('is_group', false) // Ensure it's not a group conversation
+            ->whereHas('users', function ($query) use ($request) {
+                $query->where('users.id', Auth::id());
+            })
+            ->whereHas('users', function ($query) use ($request) {
+                $query->where('users.id', $request->user_id);
+            })
+            ->first(); // Find the first matching conversation
+        if ($existingConversation) {
+            return response()->json([
+                'error' => 'A conversation already exists between these two users.',
+                'conversation_id' => $existingConversation->id,
+            ], 400);
         }
 
         // Create the new conversation
