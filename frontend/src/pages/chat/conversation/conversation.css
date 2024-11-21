@@ -1,4 +1,5 @@
 .container-fluid {
+  overflow: auto;
 }
 
 .send-form {
@@ -6,4 +7,34 @@
   bottom: 0;
   padding: 15px;
   width: 65%;
+}
+/* Container for messages, stacked vertically */
+.messages {
+  display: flex;
+  flex-direction: column; /* Stack messages vertically */
+  gap: 10px; /* Space between messages */
+}
+
+/* Style for sent messages (aligned to the right) */
+.sent {
+  display: flex;
+  justify-content: flex-end; /* Align sent messages to the right */
+  max-width: 100%; /* Limit width to 70% */
+}
+
+/* Style for received messages (aligned to the left) */
+.received {
+  display: flex;
+  justify-content: flex-start; /* Align received messages to the left */
+  max-width: 70%; /* Limit width to 70% */
+}
+
+/* Apply Bootstrap button classes */
+.sent span,
+.received span {
+  display: inline-block;
+
+  border-radius: 20px; /* Rounded corners */
+  word-wrap: break-word; /* Break long words */
+  max-width: 100%; /* Message can grow to full width */
 }

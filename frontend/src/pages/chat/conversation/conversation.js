@@ -15,13 +15,6 @@ export const Conversation = ({ chatUser, currentUser, conversationId }) => {
   const [messageContent, setMessageContent] = useState('');
   const [messages, setMessages] = useState([]);
 
-  // Fetch messages when the conversationId changes
-  useEffect(() => {
-    if (conversationId) {
-      fetchMessages();
-    }
-  }, [conversationId]);
-
   // Function to fetch messages
   const fetchMessages = async () => {
     try {
@@ -31,6 +24,21 @@ export const Conversation = ({ chatUser, currentUser, conversationId }) => {
       console.error('Failed to fetch messages:', err);
     }
   };
+
+  // Fetch messages when the conversationId changes
+  useEffect(() => {
+    if (conversationId) {
+      fetchMessages(); // Initial fetch for messages
+
+      // Set an interval to fetch new messages every 2 seconds
+      const interval = setInterval(() => {
+        fetchMessages();
+      }, 3000); // 2000 milliseconds = 2 seconds
+
+      // Clean up interval on component unmount or when conversation changes
+      return () => clearInterval(interval);
+    }
+  }, [conversationId]);
 
   // Function to handle sending messages
   const handleSendMessage = async () => {
@@ -81,38 +89,36 @@ export const Conversation = ({ chatUser, currentUser, conversationId }) => {
       </div>
 
       <hr />
-
       {/* Messages Section */}
-      <div
-        style={{
-          flex: 1,
-          overflowY: 'auto',
-          maxHeight: '60vh', // Adjust based on your layout
-          marginBottom: '60px', // Ensure no overlap with the send form
-        }}
-      >
+      <div className="messages mb-5">
         {messages.length > 0 ? (
-          messages.map((msg) => (
-            <div
-              key={msg.id}
-              className={`message ${
-                msg.sender_id === currentUser.id ? 'sent' : 'received'
-              }`}
-              style={{
-                textAlign: msg.sender_id === currentUser.id ? 'right' : 'left',
-                margin: '10px 0',
-              }}
-            >
-              <span>{msg.content}</span>
-            </div>
-          ))
+          [...messages]
+            .sort((a, b) => new Date(a.created_at) - new Date(b.created_at)) // Sort by created_at
+            .map((msg) => (
+              <div
+                key={msg.id}
+                className={`message  ${
+                  msg.user_id === currentUser.id ? 'sent' : 'received'
+                } `}
+              >
+                <span
+                  className={`${
+                    msg.user_id === currentUser.id
+                      ? 'btn btn-success'
+                      : 'btn btn-secondary'
+                  } my-2`}
+                >
+                  {msg.content}
+                </span>
+              </div>
+            ))
         ) : (
           <div>No messages yet</div>
         )}
       </div>
 
       {/* Send Form */}
-      <div className="send-form d-flex">
+      <div className="send-form d-flex my-3">
         <IoIosMore className="me-3 icon" size={30} />
         <FaRegSmile className="me-3 icon" size={25} />
         <input
