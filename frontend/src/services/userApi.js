@@ -21,12 +21,8 @@ export const LoginUser = async (user) => {
   }
 };
 export const LogoutUser = async (user) => {
-  try {
-    const response = await api.post('/logout', user);
-    return response.data;
-  } catch (err) {
-    console.log(err);
-  }
+  const response = await api.post('/logout', user);
+  return response.data;
 };
 export const getUsers = async (user) => {
   try {

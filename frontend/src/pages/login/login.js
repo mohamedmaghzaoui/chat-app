@@ -7,9 +7,13 @@ import { UserContext } from '../../Contexts/userContext';
 export const Login = ({ hideLogin }) => {
   const { setUsername } = useContext(UserContext);
   const submitData = async (userData) => {
-    const response = await LoginUser(userData);
-    setUsername((prev) => prev + 'a'); //change unername in order to run getUser functuin
-    console.log(response);
+    try {
+      const response = await LoginUser(userData);
+      setUsername((prev) => prev + 'a'); //change unername in order to run getUser functuin
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const {

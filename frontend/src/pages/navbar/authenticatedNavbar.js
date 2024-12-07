@@ -1,12 +1,17 @@
 import { SignUp } from '../signUp/signUp';
 import { Login } from '../login/login';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { LogoutUser } from '../../services/userApi';
 import { Link } from 'react-router-dom';
+import { UserContext } from '../../Contexts/userContext';
 export const AuthenticatedNavbar = () => {
+  const { setUsername } = useContext(UserContext);
   //function to logout user
   const Logout = async () => {
-    const response = await LogoutUser();
+    try {
+      const response = await LogoutUser();
+      setUsername(''); //change unername in order to run getUser functuin
+    } catch {}
   };
   return (
     <div className="">
