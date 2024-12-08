@@ -3,6 +3,7 @@ import { Login } from '../login/login';
 import { useContext, useState } from 'react';
 import { LogoutUser } from '../../services/userApi';
 import { Link } from 'react-router-dom';
+import './navbar.css';
 import { UserContext } from '../../Contexts/userContext';
 export const AuthenticatedNavbar = () => {
   const { setUsername } = useContext(UserContext);
@@ -42,39 +43,6 @@ export const AuthenticatedNavbar = () => {
                 <Link to={'/chat'} className="nav-link active" href="#">
                   Chat
                 </Link>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link active" href="#">
-                  School
-                </a>
-              </li>
-              <li className="nav-item dropdown">
-                <a
-                  className="nav-link dropdown-toggle active"
-                  href="#"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Help
-                </a>
-                <ul className="dropdown-menu">
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Action
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Another action
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Something else here
-                    </a>
-                  </li>
-                </ul>
               </li>
             </ul>
             <div className="nav-item offset-6  ">

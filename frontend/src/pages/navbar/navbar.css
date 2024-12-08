@@ -1,0 +1,11 @@
+.navbar,
+.navbar-collapse {
+  position: static !important;
+  overflow: visible !important;
+}
+
+.dropdown-menu {
+  max-height: 100vh !important; /* Maximum height = full viewport */
+  overflow-y: auto !important; /* Scroll only if necessary */
+  color: red !important;
+}

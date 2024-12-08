@@ -1,0 +1,36 @@
+.home-page {
+  font-family: Arial, sans-serif;
+}
+
+.header-section {
+  height: 80vh;
+  background: linear-gradient(to right, #007bff, #6610f2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.header-section h1 {
+  font-size: 3rem;
+}
+
+.header-section p {
+  font-size: 1.25rem;
+  margin-top: 1rem;
+}
+
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+#features .row h5 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+footer {
+  background-color: #343a40;
+  color: white;
+}
