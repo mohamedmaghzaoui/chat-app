@@ -26,10 +26,9 @@ export const UsersList = ({ getChatUser, currentUser, getConversationId }) => {
   }, []);
 
   return (
-    <div className="user-list col-xl-3 col-3 ">
-      <h2>Chats</h2>
+    <div className="side-element col-xl-3 col-3 ">
+      <h2 className="mt-4 mx-3">Users</h2>
       <ul>
-        <h4>Users</h4>
         <input
           placeholder="Search for user"
           className="form-control mb-5 w-75"

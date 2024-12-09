@@ -9,7 +9,7 @@
 }
 
 /* User List Sidebar */
-.user-list {
+.side-element {
   height: 100%; /* Take full height of the parent */
   overflow-y: auto; /* Only scroll inside if needed */
   overflow-x: hidden;
@@ -28,4 +28,21 @@
   align-items: center;
   display: flex;
   flex-direction: column;
+}
+.icon {
+  cursor: pointer !important;
+}
+.user-info {
+  width: 80%;
+  background-color: white;
+}
+.user-info-titles {
+  font-weight: 600;
+  color: #7a7f9a;
+  font-size: 15px;
+}
+.user-info-details {
+  font-weight: 800;
+  color: #343a40;
+  font-size: 14px;
 }
