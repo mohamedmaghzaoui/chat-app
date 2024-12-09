@@ -13,6 +13,8 @@ Route::middleware(['web'])->group(function () {
     });
     //register a user
     Route::post('/register', [UserController::class, 'register']);
+    //upadate user
+    Route::put("/user", [UserController::class, 'updateUser']);
     //login user
     Route::post('/login', [UserController::class, 'login']);
 

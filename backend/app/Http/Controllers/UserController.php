@@ -47,6 +47,43 @@ class UserController extends Controller
             ], 422); // HTTP status code for Unprocessable Entity
         }
     }
+    // Update user information
+    public function updateUser(Request $request)
+    {
+        // Validate the incoming request
+        $validated = $request->validate([
+            'first_name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'profession' => 'nullable|string',
+            'school' => 'nullable|string',
+        ]);
+
+        // Get the authenticated user
+        $user = Auth::user();
+
+        // Update user details
+        if ($validated['first_name']) {
+            $user->first_name = $validated['first_name'];
+        }
+        if ($validated['last_name']) {
+            $user->last_name = $validated['last_name'];
+        }
+
+
+        if ($validated['profession']) {
+            $user->profession = $validated['profession'];
+        }
+        if ($validated['school']) {
+            $user->school = $validated['school'];
+        }
+
+        // Save the updated user
+        $user->save();
+
+        // Return response with updated user data
+        return response()->json(['user' => $user], 200);
+    }
+
     //get all users for admin
     public function getUsers()
     {
