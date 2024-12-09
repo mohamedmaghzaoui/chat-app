@@ -4,7 +4,7 @@ import { AuthenticatedNavbar } from './authenticatedNavbar';
 import { UserContext } from '../../Contexts/userContext';
 
 export const Navbar = () => {
-  const { username } = useContext(UserContext);
-  console.log(username);
-  return username ? <AuthenticatedNavbar /> : <UnauthenticatedNavbar />;
+  const { userData } = useContext(UserContext);
+  console.log(userData);
+  return userData ? <AuthenticatedNavbar /> : <UnauthenticatedNavbar />;
 };

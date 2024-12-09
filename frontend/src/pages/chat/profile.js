@@ -1,7 +1,11 @@
 export const Profile = ({ user }) => {
-  {
-    console.log(user);
+  if (!user) {
+    // Return a loading message or a fallback if the user doesn't exist yet
+    return <div>Loading...</div>;
   }
+
+  console.log(user); // Optionally log the user object for debugging
+
   return (
     <div className="side-element col-xl-3 col-3 ">
       <h2>My Profile</h2>

@@ -12,6 +12,15 @@ export const RegisterUser = async (user) => {
     console.log(err);
   }
 };
+export const updateUser = async (user) => {
+  try {
+    const response = await api.put('/user', user);
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const LoginUser = async (user) => {
   try {
     const response = await api.post('/login', user);

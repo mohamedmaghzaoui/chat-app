@@ -6,12 +6,15 @@ export const UserContext = createContext();
 // UserProvider to fetch user data and provide it to children
 export const UserProvider = ({ children }) => {
   const [username, setUsername] = useState('');
+  const [userData, setUserData] = useState('');
   const [userRole, setUserRole] = useState('');
   const [loading, setLoading] = useState(true);
+  const [isRefresh, setIsRefresh] = useState(false);
 
   const getUserData = async () => {
     try {
-      const userData = await getUser();
+      const response = await getUser();
+      setUserData(response);
       setUsername(userData.first_name);
       setUserRole(userData.role.role_type);
     } catch (error) {
@@ -23,7 +26,7 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     getUserData();
-  }, []); // Empty dependency array to fetch data only once
+  }, [isRefresh]); // Empty dependency array to fetch data only once
 
   // Return loading UI while data is being fetched
   if (loading) {
@@ -31,7 +34,9 @@ export const UserProvider = ({ children }) => {
   }
 
   return (
-    <UserContext.Provider value={{ username, userRole, setUsername }}>
+    <UserContext.Provider
+      value={{ setIsRefresh, userData, username, userRole, setUsername }}
+    >
       {children}
     </UserContext.Provider>
   );

@@ -1,7 +1,32 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { AiFillEdit } from 'react-icons/ai';
+import { updateUser } from '../../services/userApi';
+import { useForm } from 'react-hook-form';
+import { UserContext } from '../../Contexts/userContext';
 export const Setting = ({ user }) => {
   const [isEdit, setIsEdit] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { setIsRefresh } = useContext(UserContext);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const submitData = async (userData) => {
+    setIsLoading(true);
+    try {
+      const response = await updateUser(userData);
+
+      if (response && response.status === 200) {
+        setIsRefresh((prev) => prev + 'a');
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+      setIsEdit(false);
+    }
+  };
   const editElement = (
     <div
       onClick={() => setIsEdit(true)}
@@ -22,6 +47,9 @@ export const Setting = ({ user }) => {
       <span>Edit</span>
     </div>
   );
+  if (!user) {
+    return <div>loading...</div>;
+  }
   return (
     <div className="side-element col-xl-3 col-3 ">
       <h2>Settings</h2>
@@ -46,17 +74,12 @@ export const Setting = ({ user }) => {
           />
         </div>
       </div>
-      <h5 className="text-center mt-4 ">
+      <h5 className="text-center mt-4 mb-5 ">
         {user.first_name} {user.last_name}
       </h5>
-      <span className="d-flex align-items-center justify-content-center ">
-        <span className="text-success fs-1 " style={{ marginRight: '5px' }}>
-          •
-        </span>
-        <p className="m-0 text-secondary">Active</p>
-      </span>
+
       {!isEdit ? (
-        <div className="user-info mx-4 ">
+        <div className="user-info mx-4  ">
           <div className="mx-3 mb-3 d-flex justify-content-between align-items-center">
             <div>
               <span className="user-info-titles">First Name</span>
@@ -97,15 +120,17 @@ export const Setting = ({ user }) => {
           </div>
         </div>
       ) : (
-        <div className="user-edit mx-4 ">
+        <form onSubmit={handleSubmit(submitData)} className="user-edit mx-4 ">
           <div className="mx-3 mb-3 d-flex justify-content-between align-items-center">
             <div>
               <span className="user-info-titles">First Name</span>
               <br />
               <input
+                required
                 defaultValue={user.first_name}
                 className="form-control"
                 type="text"
+                {...register('first_name')}
               />
             </div>
           </div>
@@ -117,6 +142,7 @@ export const Setting = ({ user }) => {
                 defaultValue={user.last_name}
                 className="form-control"
                 type="text"
+                {...register('last_name')}
               />
             </div>
           </div>
@@ -134,6 +160,7 @@ export const Setting = ({ user }) => {
                 defaultValue={user.school}
                 className="form-control"
                 type="text"
+                {...register('school')}
               />
             </div>
           </div>
@@ -145,10 +172,30 @@ export const Setting = ({ user }) => {
                 defaultValue={user.profession}
                 className="form-control"
                 type="text"
+                {...register('profession')}
               />
             </div>
           </div>
-        </div>
+          {isLoading ? (
+            <div className="d-flex justify-content-center my-3">
+              <div className="spinner-border text-primary" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          ) : (
+            <div className="my-3 ms-2">
+              <button
+                onClick={() => setIsEdit(false)}
+                className="btn btn-secondary mx-3 "
+              >
+                Cancel
+              </button>
+              <button type="submit" className="btn btn-primary ">
+                Update
+              </button>
+            </div>
+          )}
+        </form>
       )}
     </div>
   );

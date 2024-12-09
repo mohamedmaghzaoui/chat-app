@@ -5,7 +5,7 @@ import { LoginUser } from '../../services/userApi';
 import { UserContext } from '../../Contexts/userContext';
 
 export const Login = ({ hideLogin }) => {
-  const { setUsername } = useContext(UserContext);
+  const { setIsRefresh } = useContext(UserContext);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false); // loading state
 
@@ -17,7 +17,7 @@ export const Login = ({ hideLogin }) => {
       console.log(response);
 
       if (response && response.status === 200) {
-        setUsername((prev) => prev + 'a'); // Update username  after success
+        setIsRefresh('true');
       } else {
         setError('Wrong credentials');
       }

@@ -1,7 +1,7 @@
 import { UsersList } from './userList';
 import { Conversation } from './conversation/conversation';
 import './chat.css';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { getUser } from '../../services/userApi';
 import { Tooltip } from 'react-tooltip';
 import { IoSettingsOutline } from 'react-icons/io5';
@@ -10,8 +10,9 @@ import { HiOutlineUsers } from 'react-icons/hi2';
 import { AiOutlineUser } from 'react-icons/ai';
 import { Setting } from './setting';
 import { Profile } from './profile';
+import { UserContext } from '../../Contexts/userContext';
 export const Chat = () => {
-  const [currentUser, setCurrentUser] = useState();
+  const { userData } = useContext(UserContext);
   const [conversationId, setConversationId] = useState();
   const [chatUser, setChatUser] = useState();
   const [currentSideElement, setCurrentSideElement] = useState('conversation');
@@ -22,29 +23,21 @@ export const Chat = () => {
     setConversationId(id);
   };
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      const data = await getUser();
-      setCurrentUser(data);
-    };
-
-    fetchUsers();
-  }, []);
-  console.log(currentUser);
+  console.log(userData);
   console.log(chatUser);
   let sideElement;
   if (currentSideElement == 'conversation') {
     sideElement = (
       <UsersList
         getConversationId={getConversationId}
-        currentUser={currentUser}
+        currentUser={userData}
         getChatUser={getChatUser}
       />
     );
   } else if (currentSideElement == 'profile') {
-    sideElement = <Profile user={currentUser} />;
+    sideElement = <Profile user={userData} />;
   } else {
-    sideElement = <Setting user={currentUser} />;
+    sideElement = <Setting user={userData} />;
   }
 
   return (
@@ -91,7 +84,7 @@ export const Chat = () => {
 
       <Conversation
         conversationId={conversationId}
-        currentUser={currentUser}
+        currentUser={userData}
         chatUser={chatUser}
       />
     </div>

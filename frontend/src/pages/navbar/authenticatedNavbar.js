@@ -6,12 +6,12 @@ import { Link } from 'react-router-dom';
 import './navbar.css';
 import { UserContext } from '../../Contexts/userContext';
 export const AuthenticatedNavbar = () => {
-  const { setUsername } = useContext(UserContext);
+  const { setIsRefresh } = useContext(UserContext);
   //function to logout user
   const Logout = async () => {
     try {
       const response = await LogoutUser();
-      setUsername(''); //change unername in order to run getUser functuin
+      setIsRefresh((prev) => prev + 'a');
     } catch {}
   };
   return (
