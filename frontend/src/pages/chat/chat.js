@@ -8,6 +8,7 @@ import { IoSettingsOutline } from 'react-icons/io5';
 import { IoChatboxEllipsesOutline } from 'react-icons/io5';
 import { HiOutlineUsers } from 'react-icons/hi2';
 import { AiOutlineUser } from 'react-icons/ai';
+import { Setting } from './setting';
 import { Profile } from './profile';
 export const Chat = () => {
   const [currentUser, setCurrentUser] = useState();
@@ -40,8 +41,10 @@ export const Chat = () => {
         getChatUser={getChatUser}
       />
     );
-  } else {
+  } else if (currentSideElement == 'profile') {
     sideElement = <Profile user={currentUser} />;
+  } else {
+    sideElement = <Setting user={currentUser} />;
   }
 
   return (
@@ -68,6 +71,9 @@ export const Chat = () => {
           size={30}
         />
         <IoSettingsOutline
+          onClick={() => {
+            setCurrentSideElement('setting');
+          }}
           data-tooltip-id="my-tooltip"
           data-tooltip-content="Settings"
           className="mt-5 icon"

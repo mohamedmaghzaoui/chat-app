@@ -51,11 +51,7 @@ export const Profile = ({ user }) => {
           <br />
           <span className="user-info-details ">{user.email}</span>
         </div>
-        <div className="mx-3 mb-3">
-          <span className="user-info-titles">First Name</span>
-          <br />
-          <span className="user-info-details ">{user.first_name}</span>
-        </div>
+
         <div className="mx-3 mb-3">
           <span className="user-info-titles">School</span>
           <br />

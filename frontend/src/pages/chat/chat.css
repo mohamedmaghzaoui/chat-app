@@ -36,6 +36,11 @@
   width: 80%;
   background-color: white;
 }
+.user-edit {
+  height: 58%;
+  width: 80%;
+  background-color: white;
+}
 .user-info-titles {
   font-weight: 600;
   color: #7a7f9a;
