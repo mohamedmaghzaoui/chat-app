@@ -14,8 +14,9 @@ export const Login = ({ hideLogin }) => {
       setLoading(true); // Show spinner
       setError(''); // Clear previous error
       const response = await LoginUser(userData);
+      console.log(response);
 
-      if (response && response.status !== 401) {
+      if (response && response.status === 200) {
         setUsername((prev) => prev + 'a'); // Update username  after success
       } else {
         setError('Wrong credentials');
@@ -102,6 +103,9 @@ export const Login = ({ hideLogin }) => {
               >
                 Login
               </button>
+            )}
+            {error && (
+              <p className="text-center text-danger fw-bold">{error}</p>
             )}
 
             <div className="text-center">

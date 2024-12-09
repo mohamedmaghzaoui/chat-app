@@ -15,7 +15,7 @@ export const RegisterUser = async (user) => {
 export const LoginUser = async (user) => {
   try {
     const response = await api.post('/login', user);
-    return response.data;
+    return response;
   } catch (err) {
     return err;
   }

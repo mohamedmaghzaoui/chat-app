@@ -97,18 +97,33 @@ export const Conversation = ({ chatUser, currentUser, conversationId }) => {
             .map((msg) => (
               <div
                 key={msg.id}
-                className={`message  ${
+                className={`message ${
                   msg.user_id === currentUser.id ? 'sent' : 'received'
-                } `}
+                }`}
               >
                 <span
                   className={`${
                     msg.user_id === currentUser.id
-                      ? 'btn btn-success'
+                      ? 'btn btn-success '
                       : 'btn btn-secondary'
                   } my-2`}
+                  style={{
+                    textAlign: 'left',
+                    display: 'block',
+                    width: 'fit-content',
+                  }}
                 >
                   {msg.content}
+                  <br />
+                  <span
+                    style={{
+                      fontSize: '0.8em',
+                      color:
+                        msg.user_id === currentUser.id ? '#e0e0e0' : 'grey',
+                    }}
+                  >
+                    {msg.created_at.slice(11, 16)}
+                  </span>
                 </span>
               </div>
             ))
