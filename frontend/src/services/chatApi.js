@@ -29,3 +29,7 @@ export const getMessages = async (conversationId) => {
   console.log(response);
   return response.data;
 };
+export const deleteMessageEndpoint = async (messageId) => {
+  const response = await api.delete(`messages/${messageId}`);
+  return response;
+};

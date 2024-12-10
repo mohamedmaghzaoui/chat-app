@@ -8,6 +8,11 @@ import { IoIosSearch } from 'react-icons/io';
 import { IoVideocamOutline } from 'react-icons/io5';
 import { IoMdInformationCircleOutline } from 'react-icons/io';
 import { IoMdMore } from 'react-icons/io';
+
+import {
+  deleteMessage,
+  deleteMessageEndpoint,
+} from '../../../services/chatApi';
 import { useEffect, useState } from 'react';
 import { MdDeleteOutline } from 'react-icons/md';
 import { MdOutlineModeEditOutline } from 'react-icons/md';
@@ -17,6 +22,7 @@ export const Conversation = ({ chatUser, currentUser, conversationId }) => {
   const [messageContent, setMessageContent] = useState('');
   const [messages, setMessages] = useState([]);
 
+  const [loadingMessageId, setLoadingMessageId] = useState(null);
   // Function to fetch messages
   const fetchMessages = async () => {
     try {
@@ -24,6 +30,14 @@ export const Conversation = ({ chatUser, currentUser, conversationId }) => {
       setMessages(fetchedMessages);
     } catch (err) {
       console.error('Failed to fetch messages:', err);
+    }
+  };
+  const deleteMessage = async (messageId) => {
+    try {
+      const response = await deleteMessageEndpoint(messageId);
+      console.log(response);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -125,20 +139,29 @@ export const Conversation = ({ chatUser, currentUser, conversationId }) => {
                     )}
 
                     <ul className="dropdown-menu">
-                      <li className="dropdown-item d-flex justify-content-between align-items-center">
+                      <li className="dropdown-item  d-flex justify-content-between align-items-center">
                         <span style={{ color: '#495057' }}>Modify</span>
-                        <MdOutlineModeEditOutline size={20} />
+                        <MdOutlineModeEditOutline
+                          className="text-primary"
+                          size={20}
+                        />
                       </li>
-                      <li className="dropdown-item d-flex justify-content-between align-items-center">
+                      <li
+                        onClick={() => {
+                          deleteMessage(msg.id);
+                          fetchMessages();
+                        }}
+                        className="dropdown-item  d-flex justify-content-between align-items-center"
+                      >
                         <span style={{ color: '#495057' }}>Delete</span>
-                        <MdDeleteOutline size={20} />
+                        <MdDeleteOutline className="text-danger" size={20} />
                       </li>
                     </ul>
                   </div>
                   <span
                     className={`${
                       msg.user_id === currentUser.id
-                        ? 'btn btn-success '
+                        ? 'btn btn-primary '
                         : 'btn btn-secondary'
                     } my-2`}
                     style={{
