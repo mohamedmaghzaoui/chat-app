@@ -22,7 +22,7 @@ export const Conversation = ({ chatUser, currentUser, conversationId }) => {
   const [messageContent, setMessageContent] = useState('');
   const [messages, setMessages] = useState([]);
 
-  const [loadingMessageId, setLoadingMessageId] = useState(null);
+  const [isLoadingDelete, setIsLoadingDelete] = useState(null);
   // Function to fetch messages
   const fetchMessages = async () => {
     try {
@@ -33,11 +33,15 @@ export const Conversation = ({ chatUser, currentUser, conversationId }) => {
     }
   };
   const deleteMessage = async (messageId) => {
+    setIsLoadingDelete(false);
     try {
+      setIsLoadingDelete(true);
       const response = await deleteMessageEndpoint(messageId);
-      console.log(response);
+      fetchMessages();
     } catch (err) {
       console.log(err);
+    } finally {
+      setIsLoadingDelete(false);
     }
   };
 
@@ -107,15 +111,22 @@ export const Conversation = ({ chatUser, currentUser, conversationId }) => {
       <hr />
       {/* Messages Section */}
       <div className="messages mb-5">
-        {messages.length > 0 ? (
+        {isLoadingDelete ? (
+          <div
+            className="spinner-wrapper d-flex justify-content-center align-items-center"
+            style={{ height: '100px' }} // Adjust height as needed
+          >
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        ) : messages.length > 0 ? (
           [...messages]
             .sort((a, b) => new Date(a.created_at) - new Date(b.created_at)) // Sort by created_at
             .map((msg) => (
               <div
                 key={msg.id}
-                className={`message ${
-                  msg.user_id === currentUser.id ? 'sent' : 'received'
-                }`}
+                className={`message ${msg.user_id === currentUser.id ? 'sent' : 'received'}`}
               >
                 <div
                   style={{
@@ -127,19 +138,18 @@ export const Conversation = ({ chatUser, currentUser, conversationId }) => {
                         : 'flex-start',
                   }}
                 >
-                  <div class="dropdown">
+                  <div className="dropdown">
                     {msg.user_id === currentUser.id && (
                       <IoMdMore
                         size={20}
-                        class=" dropdown-toggle"
+                        className="dropdown-toggle"
                         type="button"
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
-                      ></IoMdMore>
+                      />
                     )}
-
                     <ul className="dropdown-menu">
-                      <li className="dropdown-item  d-flex justify-content-between align-items-center">
+                      <li className="dropdown-item d-flex justify-content-between align-items-center">
                         <span style={{ color: '#495057' }}>Modify</span>
                         <MdOutlineModeEditOutline
                           className="text-primary"
@@ -149,9 +159,8 @@ export const Conversation = ({ chatUser, currentUser, conversationId }) => {
                       <li
                         onClick={() => {
                           deleteMessage(msg.id);
-                          fetchMessages();
                         }}
-                        className="dropdown-item  d-flex justify-content-between align-items-center"
+                        className="dropdown-item d-flex justify-content-between align-items-center"
                       >
                         <span style={{ color: '#495057' }}>Delete</span>
                         <MdDeleteOutline className="text-danger" size={20} />
@@ -161,7 +170,7 @@ export const Conversation = ({ chatUser, currentUser, conversationId }) => {
                   <span
                     className={`${
                       msg.user_id === currentUser.id
-                        ? 'btn btn-primary '
+                        ? 'btn btn-primary'
                         : 'btn btn-secondary'
                     } my-2`}
                     style={{
@@ -186,7 +195,7 @@ export const Conversation = ({ chatUser, currentUser, conversationId }) => {
               </div>
             ))
         ) : (
-          <div>No messages yet</div>
+          <p>No messages yet</p>
         )}
       </div>
 
