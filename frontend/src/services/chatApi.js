@@ -33,3 +33,9 @@ export const deleteMessageEndpoint = async (messageId) => {
   const response = await api.delete(`messages/${messageId}`);
   return response;
 };
+export const updateMessageEndpoint = async (messageId, content) => {
+  const response = await api.put(`messages/${messageId}`, {
+    content: content,
+  });
+  return response;
+};
