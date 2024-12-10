@@ -3,10 +3,11 @@
 }
 
 .send-form {
-  position: fixed;
+  background-color: white;
+  position: absolute;
   bottom: 0;
   padding: 15px;
-  width: 65%;
+  width: 68%;
 }
 /* Container for messages, stacked vertically */
 .messages {
@@ -37,4 +38,7 @@
   border-radius: 20px; /* Rounded corners */
   word-wrap: break-word; /* Break long words */
   max-width: 100%; /* Message can grow to full width */
+}
+.dropdown-item {
+  cursor: pointer;
 }

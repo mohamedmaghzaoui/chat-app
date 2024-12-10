@@ -58,4 +58,45 @@ class MessageController extends Controller
         // Optionally, you can send the message back with the response
         return response()->json($message, 201);
     }
+    //update a msg
+    public function update(Request $request, $messageId)
+    {
+        // Validate the incoming request
+        $request->validate([
+            'content' => 'required|string|max:255',
+        ]);
+
+        // Find the message
+        $message = Message::findOrFail($messageId);
+
+        // Check if the authenticated user is the author of the message
+        if ($message->user_id !== Auth::id()) {
+            return response()->json(['message' => 'You are not authorized to edit this message'], 403);
+        }
+
+        // Update the message content
+        $message->content = $request->input('content');
+        $message->save();
+
+        return response()->json(['message' => 'Message updated successfully', 'data' => $message], 200);
+    }
+
+    /**
+     * Delete a  message.
+     */
+    public function destroy($messageId)
+    {
+        // Find the message
+        $message = Message::findOrFail($messageId);
+
+        // Check if the authenticated user is the author of the message
+        if ($message->user_id !== Auth::id()) {
+            return response()->json(['message' => 'You are not authorized to delete this message'], 403);
+        }
+
+        // Delete the message
+        $message->delete();
+
+        return response()->json(['message' => 'Message deleted successfully'], 200);
+    }
 }

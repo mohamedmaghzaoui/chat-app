@@ -9,6 +9,8 @@ import { IoVideocamOutline } from 'react-icons/io5';
 import { IoMdInformationCircleOutline } from 'react-icons/io';
 import { IoMdMore } from 'react-icons/io';
 import { useEffect, useState } from 'react';
+import { MdDeleteOutline } from 'react-icons/md';
+import { MdOutlineModeEditOutline } from 'react-icons/md';
 import { sendMessage, getMessages } from '../../../services/chatApi';
 
 export const Conversation = ({ chatUser, currentUser, conversationId }) => {
@@ -101,30 +103,63 @@ export const Conversation = ({ chatUser, currentUser, conversationId }) => {
                   msg.user_id === currentUser.id ? 'sent' : 'received'
                 }`}
               >
-                <span
-                  className={`${
-                    msg.user_id === currentUser.id
-                      ? 'btn btn-success '
-                      : 'btn btn-secondary'
-                  } my-2`}
+                <div
                   style={{
-                    textAlign: 'left',
-                    display: 'block',
-                    width: 'fit-content',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent:
+                      msg.user_id === currentUser.id
+                        ? 'flex-end'
+                        : 'flex-start',
                   }}
                 >
-                  {msg.content}
-                  <br />
+                  <div class="dropdown">
+                    {msg.user_id === currentUser.id && (
+                      <IoMdMore
+                        size={20}
+                        class=" dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      ></IoMdMore>
+                    )}
+
+                    <ul className="dropdown-menu">
+                      <li className="dropdown-item d-flex justify-content-between align-items-center">
+                        <span style={{ color: '#495057' }}>Modify</span>
+                        <MdOutlineModeEditOutline size={20} />
+                      </li>
+                      <li className="dropdown-item d-flex justify-content-between align-items-center">
+                        <span style={{ color: '#495057' }}>Delete</span>
+                        <MdDeleteOutline size={20} />
+                      </li>
+                    </ul>
+                  </div>
                   <span
+                    className={`${
+                      msg.user_id === currentUser.id
+                        ? 'btn btn-success '
+                        : 'btn btn-secondary'
+                    } my-2`}
                     style={{
-                      fontSize: '0.8em',
-                      color:
-                        msg.user_id === currentUser.id ? '#e0e0e0' : 'grey',
+                      textAlign: 'left',
+                      display: 'block',
+                      width: 'fit-content',
                     }}
                   >
-                    {msg.created_at.slice(11, 16)}
+                    {msg.content}
+                    <br />
+                    <span
+                      style={{
+                        fontSize: '0.8em',
+                        color:
+                          msg.user_id === currentUser.id ? '#e0e0e0' : 'grey',
+                      }}
+                    >
+                      {msg.created_at.slice(11, 16)}
+                    </span>
                   </span>
-                </span>
+                </div>
               </div>
             ))
         ) : (
@@ -147,7 +182,7 @@ export const Conversation = ({ chatUser, currentUser, conversationId }) => {
         <button
           onClick={handleSendMessage}
           type="button"
-          className="btn btn-success"
+          className="btn btn-primary"
         >
           <IoSend size={20} className="icon" />
         </button>

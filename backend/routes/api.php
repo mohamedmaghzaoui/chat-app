@@ -25,11 +25,13 @@ Route::middleware(['web'])->group(function () {
     //get  current login user
     Route::get('/user', [UserController::class, 'getUser'])->middleware('auth');
     Route::delete('/user', [UserController::class, 'deleteUser'])->middleware('auth');
-    Route::get('/conversations/{conversationId}/messages', [MessageController::class, 'getAll']);
+    Route::get('/conversations/{conversationId}/messages', [MessageController::class, 'getAll'])->middleware('auth');
 
     // Store a new message
-    Route::post('/conversations/{conversationId}/messages', [MessageController::class, 'store']);
+    Route::post('/conversations/{conversationId}/messages', [MessageController::class, 'store'])->middleware('auth');
 
     //route to create a conversation
     Route::post('/conversations', [Conversation::class, 'createConversation'])->middleware('auth');
+    Route::put('/messages/{messageId}', [MessageController::class, 'update'])->middleware('auth');
+    Route::delete('/messages/{messageId}', [MessageController::class, 'destroy'])->middleware('auth');
 });

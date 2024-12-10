@@ -139,6 +139,7 @@ export const Setting = ({ user }) => {
               <span className="user-info-titles">Last Name</span>
               <br />
               <input
+                required
                 defaultValue={user.last_name}
                 className="form-control"
                 type="text"
@@ -157,6 +158,7 @@ export const Setting = ({ user }) => {
               <span className="user-info-titles">School</span>
               <br />
               <input
+                required
                 defaultValue={user.school}
                 className="form-control"
                 type="text"
@@ -169,6 +171,7 @@ export const Setting = ({ user }) => {
               <span className="user-info-titles">Profession</span>
               <br />
               <input
+                required
                 defaultValue={user.profession}
                 className="form-control"
                 type="text"
