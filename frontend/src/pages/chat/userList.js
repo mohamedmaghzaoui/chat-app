@@ -6,6 +6,7 @@ import { addConversation } from '../../services/chatApi';
 
 export const UsersList = ({ getChatUser, currentUser, getConversationId }) => {
   const [users, setUsers] = useState([]);
+  const [searchInput, setSearchInput] = useState('');
   const createConversation = async (chatUserId) => {
     try {
       const response = await addConversation(chatUserId);
@@ -24,18 +25,24 @@ export const UsersList = ({ getChatUser, currentUser, getConversationId }) => {
 
     fetchUsers();
   }, []);
+  const filteredUsers = users.filter((item) =>
+    item.first_name.toLowerCase().includes(searchInput.toLowerCase())
+  );
+
+  console.log(filteredUsers);
 
   return (
     <div className="side-element col-xl-3 col-3 ">
       <h2 className="mt-4 mx-3">Users</h2>
       <ul>
         <input
+          onChange={(e) => setSearchInput(e.target.value)}
           placeholder="Search for user"
           className="form-control mb-5 w-75"
           type="text"
         />
         {currentUser && users && users.length > 0 ? (
-          users.map((user) =>
+          filteredUsers.map((user) =>
             user.id != currentUser.id ? (
               <div
                 key={user.id} // Always use `key` in the parent-most mapped element
