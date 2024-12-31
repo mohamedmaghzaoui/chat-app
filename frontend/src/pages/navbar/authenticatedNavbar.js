@@ -18,8 +18,13 @@ export const AuthenticatedNavbar = () => {
     <div className="">
       <nav className="navbar navbar-expand-lg bg-body-tertiary container-fluid w-100">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
-            Chat-App
+          <a className="navbar-brand" href="">
+            <img
+              style={{ width: '100px' }}
+              className="img-fluid "
+              src="chat-app-logo.png"
+              alt=""
+            />
           </a>
           <button
             className="navbar-toggler"

@@ -8,7 +8,7 @@ export const Home = () => {
     <div className="home-page">
       <header className="header-section text-center text-white">
         <div className="container">
-          <h1 className="display-4">Welcome to ChatApp</h1>
+          <h1 className="display-4">Welcome to Chatter</h1>
           <p className="lead">Log in and chat with your friends instantly</p>
           <Link to={'/chat'} className="btn btn-primary btn-lg mt-3">
             Get Started

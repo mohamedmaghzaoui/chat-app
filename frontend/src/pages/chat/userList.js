@@ -25,9 +25,12 @@ export const UsersList = ({ getChatUser, currentUser, getConversationId }) => {
 
     fetchUsers();
   }, []);
-  const filteredUsers = users.filter((item) =>
-    item.first_name.toLowerCase().includes(searchInput.toLowerCase())
-  );
+  let filteredUsers = '';
+  if (users) {
+    filteredUsers = users.filter((item) =>
+      item.first_name.toLowerCase().includes(searchInput.toLowerCase())
+    );
+  }
 
   console.log(filteredUsers);
 
@@ -41,7 +44,7 @@ export const UsersList = ({ getChatUser, currentUser, getConversationId }) => {
           className="form-control mb-5 w-75"
           type="text"
         />
-        {currentUser && users && users.length > 0 ? (
+        {currentUser && filteredUsers && filteredUsers.length > 0 ? (
           filteredUsers.map((user) =>
             user.id != currentUser.id ? (
               <div
