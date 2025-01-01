@@ -18,9 +18,9 @@ export const Home = () => {
 
       <section id="about" className="py-5 bg-light text-center">
         <div className="container">
-          <h2>About ChatApp</h2>
+          <h2>About Chatter</h2>
           <p className="mt-3">
-            ChatApp is a simple and fast platform to chat with your friends and
+            Chatter is a simple and fast platform to chat with your friends and
             colleagues in real-time.
           </p>
         </div>
@@ -47,7 +47,7 @@ export const Home = () => {
       </section>
 
       <footer id="contact" className="py-4 bg-dark text-white text-center">
-        <p>© 2024 ChatApp. All rights reserved.</p>
+        <p>© 2024 Chatter. All rights reserved.</p>
       </footer>
     </div>
   );

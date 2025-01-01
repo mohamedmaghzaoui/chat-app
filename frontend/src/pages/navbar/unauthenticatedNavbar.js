@@ -48,11 +48,6 @@ export const UnauthenticatedNavbar = () => {
                   Home
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link to={'/chat'} className="nav-link active" href="#">
-                  Chat
-                </Link>
-              </li>
             </ul>
             <div className="nav-item offset-6  ">
               <button

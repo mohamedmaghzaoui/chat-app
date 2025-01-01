@@ -11,6 +11,7 @@ import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { UserProvider } from './Contexts/userContext';
+import { PrivateRoute } from './private/privateRoute';
 
 function App() {
   return (
@@ -19,7 +20,8 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/chat" element={<Chat />} />
+
+          <Route path="/chat" element={<PrivateRoute element={<Chat />} />} />
         </Routes>
       </BrowserRouter>
     </UserProvider>

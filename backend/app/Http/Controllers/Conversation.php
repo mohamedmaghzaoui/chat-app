@@ -24,11 +24,7 @@ class Conversation extends Controller
             ], 422);
         }
 
-
-
-
         //Ensure the conversation is between two users (the logged-in user and the recipient)
-
 
         if ($request->user_id == Auth::id()) {
             # code...
@@ -57,5 +53,26 @@ class Conversation extends Controller
         $conversation->users()->attach([Auth::id(), $request->user_id]);
 
         return response()->json(['message' => 'Conversation created successfully!', 'conversation_id' => $conversation->id], 200);
+    }
+    //delete conversation
+    public function deleteConversation(Request $request, $conversationId)
+    {
+        // Check if the conversation exists
+        $conversation = ModelsConversation::find($conversationId);
+
+        if (!$conversation) {
+            return response()->json(['error' => 'Conversation not found.'], 404);
+        }
+
+        // Ensure the logged-in user is part of the conversation
+        if (!$conversation->users()->where('users.id', Auth::id())->exists()) {
+            return response()->json(['error' => 'You are not a part of this conversation.'], 403);
+        }
+
+        // Delete the conversation
+        $conversation->users()->detach(); // Detach users from the conversation
+        $conversation->delete(); // Delete the conversation 
+
+        return response()->json(['message' => 'Conversation deleted successfully.'], 200);
     }
 }
