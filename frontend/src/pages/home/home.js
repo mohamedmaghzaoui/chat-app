@@ -1,16 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './home.css';
 import { Link } from 'react-router-dom';
+import { Login } from '../login/login';
 
 export const Home = () => {
+  const [isLogin, setIsLogin] = useState(false);
+
+  const hideLogin = () => {
+    setIsLogin(false);
+  };
   return (
     <div className="home-page">
       <header className="header-section text-center text-white">
         <div className="container">
           <h1 className="display-4">Welcome to Chatter</h1>
           <p className="lead">Log in and chat with your friends instantly</p>
-          <Link to={'/chat'} className="btn btn-primary btn-lg mt-3">
+          <Link
+            onClick={() => setIsLogin(true)}
+            className="btn btn-primary btn-lg mt-3"
+          >
             Get Started
           </Link>
         </div>
@@ -49,6 +58,7 @@ export const Home = () => {
       <footer id="contact" className="py-4 bg-dark text-white text-center">
         <p>© 2024 Chatter. All rights reserved.</p>
       </footer>
+      {isLogin && <Login hideLogin={hideLogin} />}
     </div>
   );
 };
