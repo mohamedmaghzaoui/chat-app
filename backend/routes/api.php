@@ -24,7 +24,9 @@ Route::middleware(['web'])->group(function () {
     Route::get('/users', [UserController::class, 'getUsers'])->middleware('auth');
     //get  current login user
     Route::get('/user', [UserController::class, 'getUser'])->middleware('auth');
+    //delete user
     Route::delete('/user', [UserController::class, 'deleteUser'])->middleware('auth');
+    //get all messages of a specefic conversation
     Route::get('/conversations/{conversationId}/messages', [MessageController::class, 'getAll'])->middleware('auth');
 
     // Store a new message
