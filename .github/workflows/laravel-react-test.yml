@@ -52,11 +52,12 @@ jobs:
           docker-compose exec backend composer install
           docker-compose exec backend php artisan key:generate
           docker-compose exec backend php artisan migrate
-          docker-compose exec backend php artisan tinker --execute "DB::table('roles')->insert(['role_id' => 1, 'role_type' => 'client']);"
-          docker-compose exec backend cp /var/www/database/database.sqlite /var/www/database/database_test.sqlite
+          
 
       - name: Run Laravel Tests
         run: |
+          docker-compose exec backend php artisan tinker --execute "DB::table('roles')->insert(['role_id' => 1, 'role_type' => 'client']);"
+          docker-compose exec backend cp /var/www/database/database.sqlite /var/www/database/database_test.sqlite
           docker-compose exec backend php artisan test
 
       - name: Verify Frontend
