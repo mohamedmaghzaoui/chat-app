@@ -114,4 +114,39 @@ class ChatTest extends TestCase
             'id' => $messageId,
         ]);
     }
+    /** @test */
+    public function test_it_deletes_all_users_and_conversations()
+    {
+        // Assert that users exist in the database
+        $this->assertDatabaseHas('users', [
+            'id' => $this->user1->id,
+        ]);
+        $this->assertDatabaseHas('users', [
+            'id' => $this->user2->id,
+        ]);
+
+        // Assert that the conversation exists in the database
+        $this->assertDatabaseHas('conversations', [
+            'id' => $this->conversation->id,
+        ]);
+
+        // Delete all users
+        User::truncate();
+
+        // Delete all conversations
+        Conversation::truncate();
+
+        // Assert that no users exist in the database
+        $this->assertDatabaseMissing('users', [
+            'id' => $this->user1->id,
+        ]);
+        $this->assertDatabaseMissing('users', [
+            'id' => $this->user2->id,
+        ]);
+
+        // Assert that no conversations exist in the database
+        $this->assertDatabaseMissing('conversations', [
+            'id' => $this->conversation->id,
+        ]);
+    }
 }
