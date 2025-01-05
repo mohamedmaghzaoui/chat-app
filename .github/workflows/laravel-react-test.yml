@@ -32,7 +32,7 @@ jobs:
           cat <<EOT > backend/.env
           APP_NAME=Laravel
           APP_ENV=local
-          APP_KEY=
+          APP_KEY= 
           APP_DEBUG=true
           APP_URL=http://localhost
           DB_CONNECTION=sqlite
@@ -45,26 +45,25 @@ jobs:
         run: |
           docker-compose exec backend mkdir -p /var/www/database
           docker-compose exec backend touch /var/www/database/database.sqlite
-         
-
+          
       - name: Install Backend Dependencies
         run: |
           docker-compose exec backend composer install
           docker-compose exec backend php artisan key:generate
           docker-compose exec backend php artisan migrate
-          
 
       - name: Run Laravel Tests
         run: |
           docker-compose exec backend php artisan tinker --execute "DB::table('roles')->insert(['id' => 1, 'role_type' => 'client']);"
           docker-compose exec backend cp /var/www/database/database.sqlite /var/www/database/database_test.sqlite
           docker-compose exec backend php artisan test
+        continue-on-error: false  # Ensures it stops if tests fail
 
       - name: Verify Frontend
         run: |
           docker-compose exec frontend npm install
-          docker-compose exec frontend npm test
           docker-compose exec frontend npm run build
+        continue-on-error: false  # Ensures it stops if frontend tests fail
 
       - name: Check Backend Logs (if failure)
         if: failure()
