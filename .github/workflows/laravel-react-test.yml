@@ -27,11 +27,6 @@ jobs:
       - name: Set up Docker Compose
         run: docker-compose up -d
 
-      - name: Wait for Backend to Start
-        run: |
-          echo "Waiting for backend to become healthy..."
-          timeout 90s bash -c 'until docker-compose exec backend curl -f http://localhost:8000; do sleep 5; done'
-
       - name: Install Backend Dependencies
         run: |
           docker-compose exec backend composer install
