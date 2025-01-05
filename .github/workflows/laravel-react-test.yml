@@ -26,6 +26,19 @@ jobs:
 
       - name: Set up Docker Compose
         run: docker-compose up -d
+      - name: Generate Default .env File
+        run: |
+          cat <<EOT > backend/.env
+          APP_NAME=Laravel
+          APP_ENV=local
+          APP_KEY=
+          APP_DEBUG=true
+          APP_URL=http://localhost
+          DB_CONNECTION=sqlite
+          DB_DATABASE=/var/www/database/database.sqlite
+          EOT
+
+
 
       - name: Install Backend Dependencies
         run: |
