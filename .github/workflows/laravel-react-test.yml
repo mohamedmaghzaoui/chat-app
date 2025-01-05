@@ -14,17 +14,23 @@ jobs:
   laravel-tests:
     runs-on: ubuntu-latest
 
-    services:
-      docker:
-        image: docker:latest
-        options: --privileged
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose --version
+
       - name: Set up Docker Compose
         run: docker-compose up -d
+
+      - name: Wait for Backend to Start
+        run: |
+          echo "Waiting for backend to become healthy..."
+          timeout 90s bash -c 'until docker-compose exec backend curl -f http://localhost:8000; do sleep 5; done'
 
       - name: Install Backend Dependencies
         run: |
@@ -41,7 +47,10 @@ jobs:
           docker-compose exec frontend npm install
           docker-compose exec frontend npm test
           docker-compose exec frontend npm run build
-          
+
+      - name: Check Backend Logs (if failure)
+        if: failure()
+        run: docker-compose logs backend
 
       - name: Tear Down Docker Compose
         if: always()
