@@ -46,6 +46,55 @@ docker-compose exec frontend npm install
 │   └── public/
 └── docker-compose.yml
 ```
+
+## 📄 Managing .env Files
+
+The `.env` files are used to configure environment variables for both the **Laravel** backend and the **React** frontend.
+
+### 📂 Backend: Environment Variable Configuration with Laravel
+
+In the backend folder, the `.env` file is used to configure essential variables for the **Laravel** application.
+
+```bash
+# The .env files allow configuring environment variables for different scenarios:
+# 1. .env: Default file containing main values.
+# 2. .env.local: Local file not versioned for specific overrides.
+# 3. .env.$APP_ENV: File for environment-specific configurations (local, production, etc.).
+# 4. .env.$APP_ENV.local: Specific overrides for each environment (non-versioned).
+
+# DO NOT store production secrets in this file or any other versioned file.
+# Use appropriate secrets management tools, such as cloud services or local solutions.
+
+###> Laravel Application Settings ###
+# Application name
+APP_NAME=Laravel
+# Application environment (local, production, etc.)
+APP_ENV=local
+# Secret key for the application, to be generated for each project
+APP_KEY=base64:your_generated_key_here
+# Application debug mode (true or false)
+APP_DEBUG=true
+# Application URL for redirections, etc.
+APP_URL=http://localhost
+###< Laravel Application Settings ###
+
+###> Database Configuration ###
+# Database connection type
+DB_CONNECTION=sqlite
+# Database file used for development
+DB_DATABASE=/var/www/database/database.sqlite
+
+# Configuration for the test database
+TEST_DB_CONNECTION=sqlite
+TEST_DB_DATABASE=/var/www/database/database_test.sqlite
+###< Database Configuration ###
+```
+#### 📂 Frontend: Configuration with React
+In the frontend folder, the .env file contains variables specific to the React.js application with Vite.
+```bash
+# URL for the Backend API (Laravel)
+REACT_APP_API_URL=http://localhost:8000/api
+```
 ## 🛠️ Technologies Used
 
 ![Apache](https://img.shields.io/badge/Apache-D22128?style=for-the-badge&logo=apache&logoColor=white)
