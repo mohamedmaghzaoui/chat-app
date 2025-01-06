@@ -13,6 +13,7 @@ class ChatTest extends TestCase
 {
     private $user1;
     private $user2;
+
     private $conversation;
 
     public function setUp(): void
@@ -23,10 +24,13 @@ class ChatTest extends TestCase
         $this->user1 = User::factory()->create();
         $this->user2 = User::factory()->create();
 
+
         // Create a conversation between the two users
         $this->conversation = Conversation::create();
         $this->conversation->users()->attach([$this->user1->id, $this->user2->id]);
     }
+
+
 
     /** @test */
     public function test_it_creates_a_message_in_a_conversation()
