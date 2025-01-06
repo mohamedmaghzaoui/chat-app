@@ -34,6 +34,6 @@ Route::middleware(['web'])->group(function () {
 
     //route to create a conversation
     Route::post('/conversations', [Conversation::class, 'createConversation'])->middleware('auth');
-    Route::put('/messages/{messageId}', [MessageController::class, 'update'])->middleware('auth');
+    Route::put('/messagess/{messageId}', [MessageController::class, 'update'])->middleware('auth');
     Route::delete('/messages/{messageId}', [MessageController::class, 'destroy'])->middleware('auth');
 });
