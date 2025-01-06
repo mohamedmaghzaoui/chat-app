@@ -45,12 +45,14 @@ jobs:
         run: |
           docker-compose exec backend mkdir -p /var/www/database
           docker-compose exec backend touch /var/www/database/database.sqlite
+        continue-on-error: false
           
       - name: Install Backend Dependencies
         run: |
           docker-compose exec backend composer install
           docker-compose exec backend php artisan key:generate
           docker-compose exec backend php artisan migrate
+        continue-on-error: false
 
       - name: Run Laravel Tests
         run: |
