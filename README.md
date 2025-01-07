@@ -90,7 +90,7 @@ TEST_DB_DATABASE=/var/www/database/database_test.sqlite
 ###< Database Configuration ###
 ```
 #### 📂 Frontend: Configuration with React
-In the frontend folder, the .env file contains variables specific to the React.js application with Vite.
+In the frontend folder, the .env file contains variables specific to the React.js application with Vite
 ```bash
 # URL for the Backend API (Laravel)
 REACT_APP_API_URL=http://localhost:8000/api
